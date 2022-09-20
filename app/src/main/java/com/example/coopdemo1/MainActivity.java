@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
             listAdapter.notifyDataSetChanged();
         });
 
-        binding.btnFetchHardCode.setOnClickListener(vie -> new FetchHardCode().start());
+        binding.btnFetchHardCode.setOnClickListener(view -> new FetchHardCode().start());
     }
 
     private void initializeUserList() {
@@ -77,6 +77,14 @@ public class MainActivity extends AppCompatActivity {
                     progressDialog.show();
                 }
             });
+
+            /*
+            ,
+            {
+              "name": "New",
+              "age": 45
+            }
+            */
 
             try {
                 //Create a URL object with the destination URL
@@ -147,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
                 public void run() {
                     //Displays the loading wheel
                     progressDialog = new ProgressDialog(MainActivity.this);
-                    progressDialog.setMessage("Fetching URL Data...");
+                    progressDialog.setMessage("Fetching File Data...");
                     progressDialog.setCancelable(false);
                     progressDialog.show();
                 }
@@ -220,6 +228,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         //Main application of the thread
         public void run() {
+
             //Hardcoded JSON data
             /*
             * {
@@ -233,16 +242,6 @@ public class MainActivity extends AppCompatActivity {
             * }
             * */
             String JSON_STRING = "{\"Users\":[{\"name\":\"Reynard\",\"age\":25}]}";
-
-            mainHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    progressDialog = new ProgressDialog(MainActivity.this);
-                    progressDialog.setMessage("Fetching File Data...");
-                    progressDialog.setCancelable(false);
-                    progressDialog.show();
-                }
-            });
 
             data = JSON_STRING;
 
@@ -269,13 +268,10 @@ public class MainActivity extends AppCompatActivity {
             catch (JSONException e) {
                 userList.add(e.toString());
             }
-
-            //Closes the loading wheel if it is currently running
+//
             mainHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    if(progressDialog.isShowing())
-                        progressDialog.dismiss();
                     //Alerts the listAdapter and binding object that the array list data has changed
                     listAdapter.notifyDataSetChanged();
                 }
